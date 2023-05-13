@@ -1,7 +1,6 @@
 import 'dart:math';
 
 enum PosicionFutbol { delantero, defensa, portero, centrocampista }
-
 enum PosicionBaloncesto { base, alero, pivot, alaPivot }
 
 //base class actuará como una clase abstracta, otorgándole sus atributos a la clase que extiendan.
@@ -20,14 +19,15 @@ base class EstadisticasFisicas {
       required this.salto,
       required this.precision,
       required this.aceleracion});
-  
-  void mejorar(){print('Ha mejorado');}
+
+  void mejorar() {
+    print('Ha mejorado');
+  }
 }
 
 //clase de interfaz para establecer un contrato entre clases, es decir, una serie de métodos comunes en nombre,
 //pero cuya implementación puede ser diferente
 interface class Humano {
- 
   void caminar() {
     // TODO: implement caminar
   }
@@ -39,12 +39,30 @@ interface class Humano {
   }
 }
 
-//las sealed classes actuan como si fueran abstractas.
-//Deportista implementa la interfaz Humano
-//El objetivo de la sealed class en esta demo es el pattern matching exhaustivo en el switch de la función
-//accionDelDeportista, donde se mostrará un error si no se tienen en cuenta todos las posibles variaciones.
-//En este caso, dentro del switch deben estar los casos para Futbolista y Baloncestista, ya que son las únicas
-//clases que heredan de la sealed class Deportista
+///1. Las sealed classes actuan como si fueran abstractas.
+///2. Deportista hereda de la base class EstadisticasFisicas
+///3. Deportista implementa la interfaz Humano
+///
+///El objetivo de la sealed class en esta demo es el pattern matching exhaustivo en el switch de la función
+///accionDelDeportista, donde se mostrará un error si no se tienen en cuenta todos las posibles variaciones.
+///Para que sea visible recomiendo comentar el cuerpo del switch
+///```dart
+///
+///
+///void accionDelDeportista(Deportista a) {
+/// switch (a) {
+///   /*case Futbolista f:
+///     f.chutar();
+///
+///   case Baloncestista b:
+///     b.tirar();
+///    b.mejorar();*/
+///  }
+///}
+///
+///```
+///En este caso, dentro del switch deben estar los casos para Futbolista y Baloncestista, ya que son las únicas
+///clases que heredan de la sealed class Deportista
 
 sealed class Deportista extends EstadisticasFisicas implements Humano {
   const Deportista(
@@ -105,6 +123,7 @@ final class Futbolista extends Deportista {
   }
 }
 
+//Lo mismo que en el caso del Futbolista, con la salvedad de que se ha sobreescrito el método mejorar heredado de la base class EstadisticasFisicas
 final class Baloncestista extends Deportista {
   final String nombre;
   final PosicionBaloncesto posicion;
@@ -139,19 +158,17 @@ final class Baloncestista extends Deportista {
   }
 
   @override
-  void mejorar(){
+  void mejorar() {
     print('¡$runtimeType ha mejorado!');
   }
-
-  
-  
 }
 
 void accionDelDeportista(Deportista a) {
   switch (a) {
     case Futbolista f:
       f.chutar();
-      
+      f.mejorar();
+
     case Baloncestista b:
       b.tirar();
       b.mejorar();
