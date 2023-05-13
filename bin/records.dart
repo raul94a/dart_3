@@ -5,6 +5,8 @@ import 'dart:math';
 
 
 
+
+
 void main(List<String> args) {
   final (user,location) = getRecord();
   print('${user.name} está en (${location.lat},${location.long})');
